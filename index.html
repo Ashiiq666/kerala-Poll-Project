@@ -286,10 +286,10 @@
         candidates.forEach(c => counts[c.id] = 0);
 
         // Generate Unique Device ID to prevent multiple votes
-        let deviceId = localStorage.getItem('kp_device_id');
+        let deviceId = localStorage.getItem('kp_device_final');
         if (!deviceId) {
             deviceId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            localStorage.setItem('kp_device_id', deviceId);
+            localStorage.setItem('kp_device_final', deviceId);
         }
 
         // 1. Listen for Real-Time Database Updates
@@ -297,7 +297,7 @@
             .channel('public:kerala_poll')
             .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'kerala_poll' }, payload => {
                 counts[payload.new.id] = payload.new.votes;
-                if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_supabase_v1')) {
+                if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_final')) {
                     renderResults();
                 }
             })
@@ -314,7 +314,7 @@
         async function init() {
             await fetchInitialCounts(); // Load genuine DB counts first
 
-            if (localStorage.getItem('kp_voted_supabase_v1')) {
+            if (localStorage.getItem('kp_voted_final')) {
                 showResultsUI();
             } else {
                 statusMsg.style.display = 'block';
@@ -343,7 +343,7 @@
         }
 
         async function cast(id) {
-            localStorage.setItem('kp_voted_supabase_v1', 'true');
+            localStorage.setItem('kp_voted_final', 'true');
             
             // Optimistic update for instant UI response
             counts[id] += 1;
