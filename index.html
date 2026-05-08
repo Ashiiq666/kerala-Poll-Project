@@ -12,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Manjari:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Gun.js for Real-time Global Sync -->
-    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+    <!-- Supabase JS Client for 100% Reliable Real-time Database -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         :root {
@@ -265,8 +265,10 @@
     </footer>
 
     <script>
-        const gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://gun-amsterdam.herokuapp.com/gun']);
-        const voteStream = gun.get('kerala_poll_LIVE_STREAM_v10'); // FRESH KEY FOR FIXED PHOTOS
+        // Supabase Initialization
+        const supabaseUrl = 'https://andqoroyxlnjdqambifz.supabase.co';
+        const supabaseKey = 'sb_publishable_0gMXY9QIsaa1r3pOOmL_vA_ZrbGBX40';
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
         const candidates = [
             { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'https://upload.wikimedia.org/wikipedia/commons/e/ec/Vdsatheesan.jpg' },
@@ -283,15 +285,36 @@
         let counts = {};
         candidates.forEach(c => counts[c.id] = 0);
 
-        voteStream.map().on((data) => {
-            if (data && data.candidate) {
-                counts[data.candidate] = (counts[data.candidate] || 0) + 1;
-                if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_official_live')) renderResults();
+        // Generate Unique Device ID to prevent multiple votes
+        let deviceId = localStorage.getItem('kp_device_id');
+        if (!deviceId) {
+            deviceId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('kp_device_id', deviceId);
+        }
+
+        // 1. Listen for Real-Time Database Updates
+        supabaseClient
+            .channel('public:kerala_poll')
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'kerala_poll' }, payload => {
+                counts[payload.new.id] = payload.new.votes;
+                if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_supabase_v1')) {
+                    renderResults();
+                }
+            })
+            .subscribe();
+
+        // 2. Fetch Initial Genuine Counts
+        async function fetchInitialCounts() {
+            const { data, error } = await supabaseClient.from('kerala_poll').select('*');
+            if (data && data.length > 0) {
+                data.forEach(row => counts[row.id] = row.votes);
             }
-        });
+        }
 
         async function init() {
-            if (localStorage.getItem('kp_voted_official_live')) {
+            await fetchInitialCounts(); // Load genuine DB counts first
+
+            if (localStorage.getItem('kp_voted_supabase_v1')) {
                 showResultsUI();
             } else {
                 statusMsg.style.display = 'block';
@@ -319,10 +342,22 @@
             setTimeout(() => pollList.classList.add('visible'), 50);
         }
 
-        function cast(id) {
-            localStorage.setItem('kp_voted_official_live', 'true');
-            voteStream.set({ candidate: id, t: Date.now(), u: Math.random().toString(36).substr(2, 5) });
+        async function cast(id) {
+            localStorage.setItem('kp_voted_supabase_v1', 'true');
+            
+            // Optimistic update for instant UI response
+            counts[id] += 1;
             showResultsUI(true);
+
+            // Secure Database Transaction
+            const { data, error } = await supabaseClient.rpc('cast_vote', {
+                p_candidate_id: id,
+                p_device_id: deviceId
+            });
+
+            if (error) {
+                console.error("Supabase Error: You likely haven't run the SQL script in your Supabase dashboard yet!", error);
+            }
         }
 
         function showResultsUI(fresh = false) {
