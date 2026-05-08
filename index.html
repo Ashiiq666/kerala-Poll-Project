@@ -138,7 +138,6 @@
             transform: translateY(0);
         }
 
-        /* Profile Card Style */
         .card {
             background: #fff;
             border: 1px solid var(--border);
@@ -150,8 +149,6 @@
             text-align: center;
             transition: var(--transition);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-            position: relative;
-            overflow: hidden;
         }
 
         .card:hover {
@@ -175,11 +172,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .card:hover .profile-img-wrap img {
-            transform: scale(1.05);
         }
 
         .details h3 {
@@ -210,15 +202,10 @@
             cursor: pointer;
             font-family: 'Manjari', sans-serif;
             transition: var(--transition);
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
         }
 
-        .btn-vote:hover {
-            background: var(--secondary);
-            box-shadow: 0 6px 18px rgba(30, 58, 138, 0.3);
-        }
+        .btn-vote:hover { background: var(--secondary); }
 
-        /* Results Display */
         .results-box {
             background: #fff;
             border: 2px solid var(--primary);
@@ -244,10 +231,7 @@
 
         @media (max-width: 600px) {
             h1 { font-size: 2.4rem; }
-            .main-container { padding: 0 1rem 4rem; }
-            .card { padding: 2rem 1.5rem; }
             .profile-img-wrap { width: 140px; height: 140px; }
-            .results-box { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
@@ -282,12 +266,12 @@
 
     <script>
         const gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://gun-amsterdam.herokuapp.com/gun']);
-        const voteStream = gun.get('kerala_poll_LIVE_STREAM_v5'); 
+        const voteStream = gun.get('kerala_poll_LIVE_STREAM_v10'); // FRESH KEY FOR FIXED PHOTOS
 
         const candidates = [
-            { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/VD_SATHEESAN.jpg' },
+            { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'https://upload.wikimedia.org/wikipedia/commons/e/ec/Vdsatheesan.jpg' },
             { id: 'kcv', name: 'കെ.സി. വേണുഗോപാൽ', desc: 'എ.ഐ.സി.സി. ജനറൽ സെക്രട്ടറി.', img: 'https://upload.wikimedia.org/wikipedia/commons/0/01/K.C._Venugopal.JPG' },
-            { id: 'rc', name: 'രമേശ് ചെന്നിത്തല', desc: 'മുൻ ആഭ്യന്തര മന്ത്രി.', img: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Ramesh_Chennithala.jpg' }
+            { id: 'rc', name: 'രമേശ് ചെന്നിത്തല', desc: 'മുൻ ആഭ്യന്തര മന്ത്രി.', img: 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Ramesh_chennithala_Feb26.jpg' }
         ];
 
         const pollList = document.getElementById('poll-list');
@@ -302,12 +286,12 @@
         voteStream.map().on((data) => {
             if (data && data.candidate) {
                 counts[data.candidate] = (counts[data.candidate] || 0) + 1;
-                if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_final_prod')) renderResults();
+                if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_official_live')) renderResults();
             }
         });
 
         async function init() {
-            if (localStorage.getItem('kp_voted_final_prod')) {
+            if (localStorage.getItem('kp_voted_official_live')) {
                 showResultsUI();
             } else {
                 statusMsg.style.display = 'block';
@@ -336,7 +320,7 @@
         }
 
         function cast(id) {
-            localStorage.setItem('kp_voted_final_prod', 'true');
+            localStorage.setItem('kp_voted_official_live', 'true');
             voteStream.set({ candidate: id, t: Date.now(), u: Math.random().toString(36).substr(2, 5) });
             showResultsUI(true);
         }
