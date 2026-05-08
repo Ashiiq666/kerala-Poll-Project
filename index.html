@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>കേരള പൾസ് | മുഖ്യമന്ത്രി തെരഞ്ഞെടുപ്പ് 2026</title>
+    <title>ജനപക്ഷം | മുഖ്യമന്ത്രി തെരഞ്ഞെടുപ്പ് 2026</title>
     <!-- SEO Meta Tags -->
     <meta name="description" content="അടുത്ത കേരള മുഖ്യമന്ത്രി ആരാകണം? നിങ്ങളുടെ വോട്ട് രേഖപ്പെടുത്തൂ. ജനം പറയട്ടെ!">
     
@@ -53,10 +53,11 @@
         }
 
         .logo-box {
-            font-weight: 800;
-            font-size: 1.75rem;
+            font-weight: 900;
+            font-size: 2rem;
             color: var(--primary);
             font-family: 'Manjari', sans-serif;
+            letter-spacing: -0.5px;
         }
 
         .live-tag {
@@ -95,13 +96,13 @@
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 900;
             line-height: 1.1;
             margin-bottom: 1.5rem;
             color: var(--primary);
             font-family: 'Manjari', sans-serif;
-            letter-spacing: -0.02em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         h1 mark {
@@ -112,11 +113,13 @@
         }
 
         .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             color: var(--text-light);
             font-family: 'Manjari', sans-serif;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
+            font-weight: 400;
+            line-height: 1.6;
         }
 
         .main-container {
@@ -250,14 +253,14 @@
 <body>
 
     <header>
-        <div class="logo-box">കേരള പൾസ്</div>
+        <div class="logo-box">ജനപക്ഷം</div>
         <div class="live-tag"><span class="live-dot"></span> തത്സമയ വിവരങ്ങൾ</div>
     </header>
 
     <main>
         <section class="hero" id="hero">
-            <h1>കേരളത്തിന്റെ അടുത്ത മുഖ്യമന്ത്രി <br><mark>ആരാകണം?</mark></h1>
-            <p class="subtitle">നിങ്ങളുടെ വിലയേറിയ അഭിപ്രായം രേഖപ്പെടുത്തൂ. കേരളത്തിന്റെ ഭാവി തീരുമാനിക്കുന്നതിൽ നമുക്കും പങ്കുചേരാം.</p>
+            <h1>അടുത്ത മുഖ്യമന്ത്രി <br><mark>ജനം പറയട്ടെ!</mark></h1>
+            <p class="subtitle">നിങ്ങളുടെ വോട്ട് രേഖപ്പെടുത്തൂ. ഈ ഫലങ്ങൾ ലോകമെമ്പാടും തത്സമയം കാണാൻ സാധിക്കും.</p>
         </section>
 
         <div id="status-msg" style="text-align:center; padding:5rem; font-family:'Manjari'; display:none;">പരിശോധിക്കുന്നു...</div>
@@ -273,7 +276,7 @@
     </main>
 
     <footer>
-        <div class="copy">യു.ഡി.എഫ് 2026 | കേരള പൾസ്</div>
+        <div class="copy">യു.ഡി.എഫ് 2026 | ജനപക്ഷം</div>
         <p class="disclaimer">ഈ വോട്ടെടുപ്പ് പൊതുജന അഭിപ്രായം അറിയുന്നതിന് മാത്രമുള്ളതാണ്. ഇത് തെരഞ്ഞെടുപ്പ് കമ്മീഷനുമായോ മറ്റേതെങ്കിലും ഔദ്യോഗിക സംവിധാനങ്ങളുമായോ ബന്ധമുള്ളതല്ല.</p>
     </footer>
 
@@ -284,9 +287,9 @@
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
         const candidates = [
-            { id: 'vds', name: 'വി.ഡി. സതീശൻ', age: 62, desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'https://upload.wikimedia.org/wikipedia/commons/e/ec/Vdsatheesan.jpg' },
-            { id: 'kcv', name: 'കെ.സി. വേണുഗോപാൽ', age: 63, desc: 'എ.ഐ.സി.സി. ജനറൽ സെക്രട്ടറി.', img: 'https://upload.wikimedia.org/wikipedia/commons/0/01/K.C._Venugopal.JPG' },
-            { id: 'rc', name: 'രമേശ് ചെന്നിത്തല', age: 70, desc: 'മുൻ ആഭ്യന്തര മന്ത്രി.', img: 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Ramesh_chennithala_Feb26.jpg' }
+            { id: 'vds', name: 'വി.ഡി. സതീശൻ (60)', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'https://upload.wikimedia.org/wikipedia/commons/e/ec/Vdsatheesan.jpg' },
+            { id: 'kcv', name: 'കെ.സി. വേണുഗോപാൽ (61)', desc: 'എ.ഐ.സി.സി. ജനറൽ സെക്രട്ടറി.', img: 'https://upload.wikimedia.org/wikipedia/commons/0/01/K.C._Venugopal.JPG' },
+            { id: 'rc', name: 'രമേശ് ചെന്നിത്തല (68)', desc: 'മുൻ ആഭ്യന്തര മന്ത്രി.', img: 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Ramesh_chennithala_Feb26.jpg' }
         ];
 
         const pollList = document.getElementById('poll-list');
@@ -348,11 +351,7 @@
             pollList.innerHTML = candidates.map(c => `
                 <div class="card">
                     <div class="profile-img-wrap"><img src="${c.img}" alt="${c.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=1e3a8a&color=fff&size=256'"></div>
-                    <div class="details">
-                        <h3>${c.name}</h3>
-                        <div style="font-weight:700; color:var(--secondary); margin-bottom:0.5rem; font-family:'Manjari';">വയസ്സ്: ${c.age}</div>
-                        <p>${c.desc}</p>
-                    </div>
+                    <div class="details"><h3>${c.name}</h3><p>${c.desc}</p></div>
                     <button class="btn-vote" onclick="cast('${c.id}')">വോട്ട് ചെയ്യുക</button>
                 </div>
             `).join('');
