@@ -14,7 +14,6 @@
 
     <style>
         :root {
-            /* Unique Navy & Sky Blue Theme */
             --primary: #1e3a8a;
             --secondary: #3b82f6;
             --accent: #dbeafe;
@@ -38,13 +37,17 @@
             background-color: var(--bg);
             color: var(--text-dark);
             line-height: 1.6;
+            word-wrap: break-word;
         }
 
         header {
-            padding: 2rem 1rem;
+            padding: 1.5rem 1rem;
             border-bottom: 1px solid var(--border);
             text-align: center;
             background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .logo-box {
@@ -53,49 +56,50 @@
             color: var(--primary);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
         .live-tag {
             display: inline-flex;
             align-items: center;
-            background: #fee2e2;
+            background: #fdf2f2;
             color: #ef4444;
-            padding: 0.25rem 0.75rem;
+            padding: 0.35rem 0.85rem;
             border-radius: 2rem;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            margin-top: 0.5rem;
+            font-family: 'Manjari', sans-serif;
         }
 
-        .live-tag span {
-            width: 8px;
-            height: 8px;
+        .live-dot {
+            width: 10px;
+            height: 10px;
             background: #ef4444;
             border-radius: 50%;
-            margin-right: 6px;
+            margin-right: 8px;
             animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
             0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+            50% { opacity: 0.4; transform: scale(1.3); }
             100% { opacity: 1; transform: scale(1); }
         }
 
         .hero {
-            padding: 4rem 1rem;
+            padding: 3rem 1rem 2rem;
             text-align: center;
             max-width: 900px;
             margin: 0 auto;
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: 2.75rem;
             font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
             color: var(--primary);
+            font-family: 'Manjari', sans-serif;
         }
 
         h1 mark {
@@ -106,7 +110,7 @@
         }
 
         .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             color: var(--text-light);
             font-family: 'Manjari', sans-serif;
             max-width: 600px;
@@ -114,20 +118,18 @@
         }
 
         .main-container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 0 1.5rem 5rem;
+            padding: 0 1rem 5rem;
         }
 
-        /* Poll List Layout - Different from inspiration */
+        /* Responsive List Layout */
         .poll-list {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
+            gap: 1.25rem;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(15px);
             transition: var(--transition);
         }
 
@@ -138,27 +140,30 @@
 
         .card {
             background: #fff;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
             display: grid;
-            grid-template-columns: auto 1fr auto;
+            grid-template-columns: 100px 1fr auto;
             align-items: center;
-            gap: 2rem;
+            gap: 1.5rem;
             transition: var(--transition);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
         .card:hover {
             border-color: var(--secondary);
-            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
         }
 
         .profile-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 1.5rem;
+            width: 100px;
+            height: 100px;
+            border-radius: 1rem;
             overflow: hidden;
             background: var(--accent);
+            flex-shrink: 0;
         }
 
         .profile-img img {
@@ -172,50 +177,45 @@
         }
 
         .details h3 {
-            font-size: 1.75rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
             font-family: 'Manjari', sans-serif;
         }
 
         .details p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-light);
             font-family: 'Manjari', sans-serif;
-        }
-
-        .vote-action {
-            text-align: right;
+            line-height: 1.3;
         }
 
         .btn-vote {
             background: var(--primary);
             color: #fff;
             border: none;
-            padding: 1rem 2.5rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 0.75rem;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: var(--transition);
             font-family: 'Manjari', sans-serif;
+            white-space: nowrap;
         }
 
         .btn-vote:hover {
             background: var(--secondary);
-            transform: translateY(-2px);
         }
 
         /* Results Display */
         .results-box {
             background: #fff;
-            border: 3px solid var(--primary);
-            border-radius: 2rem;
-            padding: 3rem;
-            max-width: 700px;
-            margin: 0 auto;
+            border: 2px solid var(--primary);
+            border-radius: 1.5rem;
+            padding: 2rem;
             display: none;
-            box-shadow: 0 20px 50px rgba(30, 58, 138, 0.1);
+            box-shadow: 0 15px 35px rgba(30, 58, 138, 0.1);
         }
 
         .results-box.active {
@@ -223,36 +223,37 @@
         }
 
         .result-row {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .res-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.6rem;
         }
 
         .res-name {
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-family: 'Manjari', sans-serif;
         }
 
         .res-count {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-light);
             font-weight: 600;
+            font-family: 'Manjari', sans-serif;
         }
 
         .res-percent {
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--primary);
         }
 
         .bar-container {
-            height: 1.25rem;
+            height: 1rem;
             background: var(--accent);
             border-radius: 1rem;
             overflow: hidden;
@@ -268,15 +269,15 @@
 
         #status-msg {
             text-align: center;
-            padding: 5rem 1rem;
+            padding: 4rem 1rem;
             font-family: 'Manjari', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             display: none;
         }
 
         footer {
             text-align: center;
-            padding: 5rem 1rem;
+            padding: 4rem 1rem;
             background: #f8fafc;
             border-top: 1px solid var(--border);
         }
@@ -284,24 +285,43 @@
         .copy {
             font-weight: 800;
             color: var(--primary);
-            font-size: 1.1rem;
+            font-size: 1rem;
+            font-family: 'Manjari', sans-serif;
         }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .card { grid-template-columns: 1fr; text-align: center; padding: 1.5rem; gap: 1rem; }
-            .details { text-align: center; }
-            .vote-action { text-align: center; width: 100%; }
-            .btn-vote { width: 100%; }
-            .profile-img { margin: 0 auto; }
+        /* MOBILE FIXES */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .card {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 1.25rem;
+                gap: 1rem;
+            }
+            .profile-img {
+                width: 120px;
+                height: 120px;
+                margin: 0 auto;
+            }
+            .details {
+                text-align: center;
+            }
+            .btn-vote {
+                width: 100%;
+                padding: 1rem;
+            }
+            .results-box {
+                padding: 1.5rem;
+                border-radius: 1.25rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-box">Kerala Pulse</div>
-        <div class="live-tag"><span></span> GENUINE COUNTS</div>
+        <div class="logo-box">KERALA PULSE</div>
+        <div class="live-tag"><span class="live-dot"></span> തത്സമയ വിവരങ്ങൾ</div>
     </header>
 
     <main>
@@ -318,22 +338,21 @@
             <div id="results-box" class="results-box">
                 <h2 style="text-align: center; margin-bottom: 2rem; font-family: 'Manjari', sans-serif;">ഇതുവരെയുള്ള വോട്ട് നില</h2>
                 <div id="results-render"></div>
-                <p id="voted-note" style="text-align: center; margin-top: 2.5rem; font-weight: 600; color: var(--text-light); font-family: 'Manjari', sans-serif;"></p>
+                <p id="voted-note" style="text-align: center; margin-top: 2rem; font-weight: 600; color: var(--text-light); font-family: 'Manjari', sans-serif;"></p>
             </div>
         </div>
     </main>
 
     <footer>
-        <p style="color: var(--text-light); font-size: 0.9rem; max-width: 500px; margin: 0 auto 2rem;">ഈ പ്ലാറ്റ്‌ഫോം പൊതുജനങ്ങളുടെ സ്വതന്ത്ര അഭിപ്രായത്തിന് വേണ്ടിയുള്ളതാണ്. വോട്ടുകൾ സുതാര്യമായി കണക്കാക്കുന്നു.</p>
-        <div class="copy">UDF 2026 | KERALA PULSE</div>
+        <p style="color: var(--text-light); font-size: 0.9rem; max-width: 500px; margin: 0 auto 1.5rem; font-family: 'Manjari', sans-serif;">ഈ പ്ലാറ്റ്‌ഫോം പൊതുജനങ്ങളുടെ സ്വതന്ത്ര അഭിപ്രായത്തിന് വേണ്ടിയുള്ളതാണ്. വോട്ടുകൾ സുതാര്യമായി കണക്കാക്കുന്നു.</p>
+        <div class="copy">യു.ഡി.എഫ് 2026 | കേരള പൾസ്</div>
     </footer>
 
     <script>
         const syncChannel = new BroadcastChannel('kp_vote_sync');
 
-        // Genuine Start: ALL COUNTS 0
         const candidates = [
-            { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരളം.', img: 'http://www.niyamasabha.org/pics/members%2015th%20kla/78%20VD%20Satheesan%20Paravur.jpg' },
+            { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'http://www.niyamasabha.org/pics/members%2015th%20kla/78%20VD%20Satheesan%20Paravur.jpg' },
             { id: 'kcv', name: 'കെ.സി. വേണുഗോപാൽ', desc: 'എ.ഐ.സി.സി. ജനറൽ സെക്രട്ടറി.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/K.C._Venugopal.JPG/440px-K.C._Venugopal.JPG' },
             { id: 'rc', name: 'രമേശ് ചെന്നിത്തല', desc: 'മുൻ ആഭ്യന്തര മന്ത്രി.', img: 'http://www.niyamasabha.org/pics/members%2015th%20kla/107%20Ramesh%20Chennithala%20Harippad.jpg' }
         ];
@@ -341,8 +360,6 @@
         function fetchRealVotes() {
             let stored = localStorage.getItem('kp_genuine_votes');
             if (stored) return JSON.parse(stored);
-            
-            // INITIAL STATE IS 0 FOR EVERYONE
             let resetState = {};
             candidates.forEach(c => resetState[c.id] = 0);
             localStorage.setItem('kp_genuine_votes', JSON.stringify(resetState));
@@ -389,9 +406,7 @@
                         <h3>${c.name}</h3>
                         <p>${c.desc}</p>
                     </div>
-                    <div class="vote-action">
-                        <button class="btn-vote" onclick="handleVote('${c.id}')">വോട്ട് ചെയ്യുക</button>
-                    </div>
+                    <button class="btn-vote" onclick="handleVote('${c.id}')">വോട്ട് ചെയ്യുക</button>
                 </div>
             `).join('');
             setTimeout(() => pollList.classList.add('visible'), 50);
@@ -412,7 +427,6 @@
             pollList.style.display = 'none';
             statusMsg.style.display = 'none';
             resultsBox.classList.add('active');
-            
             document.getElementById('voted-note').innerText = fresh ? 'വോട്ട് ചെയ്തതിന് നന്ദി!' : 'നിങ്ങൾ നേരത്തെ വോട്ട് ചെയ്തിട്ടുണ്ട്.';
             updateResultsDisplay();
         }
@@ -420,7 +434,6 @@
         function updateResultsDisplay() {
             const votes = fetchRealVotes();
             const total = Object.values(votes).reduce((a, b) => a + b, 0);
-            
             const sorted = [...candidates].sort((a, b) => votes[b.id] - votes[a.id]);
 
             resultsRender.innerHTML = sorted.map(c => {
@@ -432,7 +445,7 @@
                             <span class="res-name">${c.name}</span>
                             <div style="text-align: right">
                                 <span class="res-percent">${percent}%</span>
-                                <div class="res-count">${count} വോട്ടുകൾ</div>
+                                <div class="res-count">${count.toLocaleString()} വോട്ടുകൾ</div>
                             </div>
                         </div>
                         <div class="bar-container"><div class="bar-fill" style="width: ${percent}%"></div></div>
