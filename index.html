@@ -20,11 +20,11 @@
             --primary: #1e3a8a;
             --secondary: #3b82f6;
             --accent: #dbeafe;
-            --bg: #ffffff;
+            --bg: #f8fafc;
             --text-dark: #0f172a;
             --text-light: #64748b;
             --border: #e2e8f0;
-            --radius: 1rem;
+            --radius: 1.5rem;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -88,14 +88,14 @@
         }
 
         .hero {
-            padding: 3rem 1rem 2rem;
+            padding: 4rem 1rem 3rem;
             text-align: center;
             max-width: 900px;
             margin: 0 auto;
         }
 
         h1 {
-            font-size: 2.75rem;
+            font-size: 3rem;
             font-weight: 800;
             line-height: 1.2;
             margin-bottom: 1.25rem;
@@ -111,7 +111,7 @@
         }
 
         .subtitle {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             color: var(--text-light);
             font-family: 'Manjari', sans-serif;
             max-width: 600px;
@@ -119,17 +119,17 @@
         }
 
         .main-container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1rem 5rem;
+            padding: 0 1.5rem 6rem;
         }
 
         .poll-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
             opacity: 0;
-            transform: translateY(15px);
+            transform: translateY(20px);
             transition: var(--transition);
         }
 
@@ -138,85 +138,116 @@
             transform: translateY(0);
         }
 
+        /* Profile Card Style */
         .card {
             background: #fff;
             border: 1px solid var(--border);
-            border-radius: 1.25rem;
-            padding: 1.5rem;
-            display: grid;
-            grid-template-columns: 100px 1fr auto;
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
         }
 
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 1rem;
+        .card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 86, 179, 0.1);
+        }
+
+        .profile-img-wrap {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
             overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 6px solid #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             background: var(--accent);
         }
 
-        .profile-img img {
+        .profile-img-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card:hover .profile-img-wrap img {
+            transform: scale(1.05);
         }
 
         .details h3 {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
             font-family: 'Manjari', sans-serif;
         }
 
         .details p {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--text-light);
             font-family: 'Manjari', sans-serif;
+            margin-bottom: 2rem;
+            min-height: 3em;
         }
 
         .btn-vote {
+            width: 100%;
             background: var(--primary);
             color: #fff;
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
+            padding: 1rem;
+            border-radius: 1rem;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.15rem;
             cursor: pointer;
             font-family: 'Manjari', sans-serif;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
         }
 
+        .btn-vote:hover {
+            background: var(--secondary);
+            box-shadow: 0 6px 18px rgba(30, 58, 138, 0.3);
+        }
+
+        /* Results Display */
         .results-box {
             background: #fff;
             border: 2px solid var(--primary);
-            border-radius: 1.5rem;
-            padding: 2.5rem;
+            border-radius: 2rem;
+            padding: 3rem;
+            max-width: 700px;
+            margin: 0 auto;
             display: none;
-            box-shadow: 0 15px 35px rgba(30, 58, 138, 0.1);
+            box-shadow: 0 25px 50px rgba(30, 58, 138, 0.1);
         }
 
-        .results-box.active {
-            display: block;
-        }
-
+        .results-box.active { display: block; }
         .result-row { margin-bottom: 2.5rem; }
         .res-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
-        .res-name { font-weight: 700; font-size: 1.25rem; font-family: 'Manjari', sans-serif; }
-        .res-count { font-size: 0.9rem; color: var(--text-light); font-weight: 600; font-family: 'Manjari', sans-serif; }
-        .res-percent { font-weight: 800; font-size: 1.5rem; color: var(--primary); }
+        .res-name { font-weight: 700; font-size: 1.3rem; font-family: 'Manjari', sans-serif; }
+        .res-count { font-size: 0.95rem; color: var(--text-light); font-weight: 600; font-family: 'Manjari', sans-serif; }
+        .res-percent { font-weight: 800; font-size: 1.75rem; color: var(--primary); }
         .bar-container { height: 1.25rem; background: var(--accent); border-radius: 1rem; overflow: hidden; }
         .bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); width: 0; transition: width 1s ease-out; }
 
-        footer { text-align: center; padding: 4rem 1rem; background: #f8fafc; border-top: 1px solid var(--border); }
-        .copy { font-weight: 800; color: var(--primary); font-size: 1.1rem; font-family: 'Manjari', sans-serif; }
+        footer { text-align: center; padding: 5rem 1rem; background: white; border-top: 1px solid var(--border); margin-top: 4rem; }
+        .copy { font-weight: 800; color: var(--primary); font-size: 1.25rem; font-family: 'Manjari', sans-serif; }
 
         @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            .card { grid-template-columns: 1fr; text-align: center; }
-            .profile-img { margin: 0 auto; }
-            .btn-vote { width: 100%; }
+            h1 { font-size: 2.4rem; }
+            .main-container { padding: 0 1rem 4rem; }
+            .card { padding: 2rem 1.5rem; }
+            .profile-img-wrap { width: 140px; height: 140px; }
+            .results-box { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
@@ -230,7 +261,7 @@
     <main>
         <section class="hero" id="hero">
             <h1>അടുത്ത മുഖ്യമന്ത്രി <br><mark>ജനം പറയട്ടെ!</mark></h1>
-            <p class="subtitle">നിങ്ങളുടെ വോട്ട് സുരക്ഷിതമാണ്. ഇത് ഔദ്യോഗിക തെരഞ്ഞെടുപ്പല്ല, മറിച്ച് പൊതുജനങ്ങളുടെ അഭിപ്രായമാണ്.</p>
+            <p class="subtitle">നിങ്ങളുടെ വോട്ട് രേഖപ്പെടുത്തൂ. ഈ ഫലങ്ങൾ ലോകമെമ്പാടും തത്സമയം കാണാൻ സാധിക്കും.</p>
         </section>
 
         <div id="status-msg" style="text-align:center; padding:5rem; font-family:'Manjari'; display:none;">പരിശോധിക്കുന്നു...</div>
@@ -238,9 +269,9 @@
         <div class="main-container">
             <div id="poll-list" class="poll-list"></div>
             <div id="results-box" class="results-box">
-                <h2 style="text-align: center; margin-bottom: 2.5rem; font-family: 'Manjari', sans-serif;">ഇതുവരെയുള്ള വോട്ട് നില</h2>
+                <h2 style="text-align: center; margin-bottom: 2.5rem; font-family: 'Manjari', sans-serif; color: var(--primary);">ഇതുവരെയുള്ള വോട്ട് നില</h2>
                 <div id="results-render"></div>
-                <p id="voted-note" style="text-align: center; margin-top: 2.5rem; font-weight: 600; color: var(--text-light); font-family: 'Manjari', sans-serif;"></p>
+                <p id="voted-note" style="text-align: center; margin-top: 2.5rem; font-weight: 700; color: var(--primary); font-family: 'Manjari', sans-serif;"></p>
             </div>
         </div>
     </main>
@@ -250,14 +281,13 @@
     </footer>
 
     <script>
-        // OFFICIAL STREAM RESET
         const gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://gun-amsterdam.herokuapp.com/gun']);
-        const voteStream = gun.get('kerala_poll_OFFICIAL_FINAL_LAUNCH'); 
+        const voteStream = gun.get('kerala_poll_LIVE_STREAM_v5'); 
 
         const candidates = [
-            { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'http://www.niyamasabha.org/pics/members%2015th%20kla/78%20VD%20Satheesan%20Paravur.jpg' },
-            { id: 'kcv', name: 'കെ.സി. വേണുഗോപാൽ', desc: 'എ.ഐ.സി.സി. ജനറൽ സെക്രട്ടറി.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/K.C._Venugopal.JPG/440px-K.C._Venugopal.JPG' },
-            { id: 'rc', name: 'രമേശ് ചെന്നിത്തല', desc: 'മുൻ ആഭ്യന്തര മന്ത്രി.', img: 'http://www.niyamasabha.org/pics/members%2015th%20kla/107%20Ramesh%20Chennithala%20Harippad.jpg' }
+            { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/VD_SATHEESAN.jpg' },
+            { id: 'kcv', name: 'കെ.സി. വേണുഗോപാൽ', desc: 'എ.ഐ.സി.സി. ജനറൽ സെക്രട്ടറി.', img: 'https://upload.wikimedia.org/wikipedia/commons/0/01/K.C._Venugopal.JPG' },
+            { id: 'rc', name: 'രമേശ് ചെന്നിത്തല', desc: 'മുൻ ആഭ്യന്തര മന്ത്രി.', img: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Ramesh_Chennithala.jpg' }
         ];
 
         const pollList = document.getElementById('poll-list');
@@ -269,16 +299,15 @@
         let counts = {};
         candidates.forEach(c => counts[c.id] = 0);
 
-        // STREAM LISTENER
         voteStream.map().on((data) => {
             if (data && data.candidate) {
                 counts[data.candidate] = (counts[data.candidate] || 0) + 1;
-                if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_official_final')) renderResults();
+                if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_final_prod')) renderResults();
             }
         });
 
         async function init() {
-            if (localStorage.getItem('kp_voted_official_final')) {
+            if (localStorage.getItem('kp_voted_final_prod')) {
                 showResultsUI();
             } else {
                 statusMsg.style.display = 'block';
@@ -298,7 +327,7 @@
         function renderPoll() {
             pollList.innerHTML = candidates.map(c => `
                 <div class="card">
-                    <div class="profile-img"><img src="${c.img}" alt="${c.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=1e3a8a&color=fff'"></div>
+                    <div class="profile-img-wrap"><img src="${c.img}" alt="${c.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=1e3a8a&color=fff&size=256'"></div>
                     <div class="details"><h3>${c.name}</h3><p>${c.desc}</p></div>
                     <button class="btn-vote" onclick="cast('${c.id}')">വോട്ട് ചെയ്യുക</button>
                 </div>
@@ -307,13 +336,8 @@
         }
 
         function cast(id) {
-            localStorage.setItem('kp_voted_official_final', 'true');
-            // Cast into the stream
-            voteStream.set({ 
-                candidate: id, 
-                t: Date.now(),
-                u: Math.random().toString(36).substr(2, 5)
-            });
+            localStorage.setItem('kp_voted_final_prod', 'true');
+            voteStream.set({ candidate: id, t: Date.now(), u: Math.random().toString(36).substr(2, 5) });
             showResultsUI(true);
         }
 
