@@ -250,9 +250,9 @@
     </footer>
 
     <script>
-        // OFFICIAL LIVE RESET
+        // OFFICIAL STREAM RESET
         const gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://gun-amsterdam.herokuapp.com/gun']);
-        const liveVotes = gun.get('kerala_poll_LIVE_FINAL_OFFICIAL'); 
+        const voteStream = gun.get('kerala_poll_OFFICIAL_FINAL_LAUNCH'); 
 
         const candidates = [
             { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'http://www.niyamasabha.org/pics/members%2015th%20kla/78%20VD%20Satheesan%20Paravur.jpg' },
@@ -269,15 +269,16 @@
         let counts = {};
         candidates.forEach(c => counts[c.id] = 0);
 
-        // SYNC
-        liveVotes.on((data) => {
-            if (!data) return;
-            candidates.forEach(c => counts[c.id] = data[c.id] || 0);
-            if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_live')) renderResults();
+        // STREAM LISTENER
+        voteStream.map().on((data) => {
+            if (data && data.candidate) {
+                counts[data.candidate] = (counts[data.candidate] || 0) + 1;
+                if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_official_final')) renderResults();
+            }
         });
 
         async function init() {
-            if (localStorage.getItem('kp_voted_live')) {
+            if (localStorage.getItem('kp_voted_official_final')) {
                 showResultsUI();
             } else {
                 statusMsg.style.display = 'block';
@@ -306,8 +307,13 @@
         }
 
         function cast(id) {
-            localStorage.setItem('kp_voted_live', 'true');
-            liveVotes.get(id).put((counts[id] || 0) + 1);
+            localStorage.setItem('kp_voted_official_final', 'true');
+            // Cast into the stream
+            voteStream.set({ 
+                candidate: id, 
+                t: Date.now(),
+                u: Math.random().toString(36).substr(2, 5)
+            });
             showResultsUI(true);
         }
 
