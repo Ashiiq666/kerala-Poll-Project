@@ -337,7 +337,7 @@
     <script>
         // Gun.js Global Real-time Sync
         const gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
-        const globalVotesNode = gun.get('kerala_poll_final_v10'); // FRESH START KEY
+        const globalVotesNode = gun.get('kerala_poll_official_launch_v1'); // FINAL RESET KEY
 
         const candidates = [
             { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'http://www.niyamasabha.org/pics/members%2015th%20kla/78%20VD%20Satheesan%20Paravur.jpg' },
@@ -360,13 +360,13 @@
             candidates.forEach(c => {
                 currentGlobalVotes[c.id] = data[c.id] || 0;
             });
-            if (resultsBox.classList.contains('active') || localStorage.getItem('kp_user_voted_final')) {
+            if (resultsBox.classList.contains('active') || localStorage.getItem('kp_user_voted_official')) {
                 renderResults();
             }
         });
 
         async function start() {
-            if (localStorage.getItem('kp_user_voted_final')) {
+            if (localStorage.getItem('kp_user_voted_official')) {
                 showResultsUI();
             } else {
                 statusMsg.style.display = 'block';
@@ -398,7 +398,7 @@
         }
 
         function handleVote(id) {
-            localStorage.setItem('kp_user_voted_final', 'true');
+            localStorage.setItem('kp_user_voted_official', 'true');
             
             // Push to Global Gun.js
             let newVal = (currentGlobalVotes[id] || 0) + 1;
