@@ -40,7 +40,6 @@
             background-color: var(--bg);
             color: var(--text-dark);
             line-height: 1.6;
-            word-wrap: break-word;
         }
 
         header {
@@ -57,7 +56,6 @@
             font-weight: 800;
             font-size: 1.75rem;
             color: var(--primary);
-            margin-bottom: 0.25rem;
             font-family: 'Manjari', sans-serif;
         }
 
@@ -71,6 +69,7 @@
             font-size: 0.8rem;
             font-weight: 700;
             font-family: 'Manjari', sans-serif;
+            margin-top: 0.5rem;
         }
 
         .live-dot {
@@ -83,9 +82,9 @@
         }
 
         @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.3); }
-            100% { opacity: 1; transform: scale(1); }
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .hero {
@@ -148,14 +147,7 @@
             grid-template-columns: 100px 1fr auto;
             align-items: center;
             gap: 1.5rem;
-            transition: var(--transition);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .card:hover {
-            border-color: var(--secondary);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
         }
 
         .profile-img {
@@ -164,7 +156,6 @@
             border-radius: 1rem;
             overflow: hidden;
             background: var(--accent);
-            flex-shrink: 0;
         }
 
         .profile-img img {
@@ -173,14 +164,9 @@
             object-fit: cover;
         }
 
-        .details {
-            text-align: left;
-        }
-
         .details h3 {
             font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 0.2rem;
             font-family: 'Manjari', sans-serif;
         }
 
@@ -188,7 +174,6 @@
             font-size: 0.9rem;
             color: var(--text-light);
             font-family: 'Manjari', sans-serif;
-            line-height: 1.3;
         }
 
         .btn-vote {
@@ -200,13 +185,7 @@
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
-            transition: var(--transition);
             font-family: 'Manjari', sans-serif;
-            white-space: nowrap;
-        }
-
-        .btn-vote:hover {
-            background: var(--secondary);
         }
 
         .results-box {
@@ -222,84 +201,22 @@
             display: block;
         }
 
-        .result-row {
-            margin-bottom: 2.5rem;
-        }
+        .result-row { margin-bottom: 2.5rem; }
+        .res-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+        .res-name { font-weight: 700; font-size: 1.25rem; font-family: 'Manjari', sans-serif; }
+        .res-count { font-size: 0.9rem; color: var(--text-light); font-weight: 600; font-family: 'Manjari', sans-serif; }
+        .res-percent { font-weight: 800; font-size: 1.5rem; color: var(--primary); }
+        .bar-container { height: 1.25rem; background: var(--accent); border-radius: 1rem; overflow: hidden; }
+        .bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); width: 0; transition: width 1s ease-out; }
 
-        .res-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .res-name {
-            font-weight: 700;
-            font-size: 1.25rem;
-            font-family: 'Manjari', sans-serif;
-        }
-
-        .res-count {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            font-weight: 600;
-            font-family: 'Manjari', sans-serif;
-        }
-
-        .res-percent {
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .bar-container {
-            height: 1.25rem;
-            background: var(--accent);
-            border-radius: 1rem;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            width: 0;
-            transition: width 1s ease-out;
-            border-radius: 1rem;
-        }
-
-        #status-msg {
-            text-align: center;
-            padding: 4rem 1rem;
-            font-family: 'Manjari', sans-serif;
-            font-size: 1.1rem;
-            display: none;
-        }
-
-        footer {
-            text-align: center;
-            padding: 4rem 1rem;
-            background: #f8fafc;
-            border-top: 1px solid var(--border);
-        }
-
-        .copy {
-            font-weight: 800;
-            color: var(--primary);
-            font-size: 1.1rem;
-            font-family: 'Manjari', sans-serif;
-        }
+        footer { text-align: center; padding: 4rem 1rem; background: #f8fafc; border-top: 1px solid var(--border); }
+        .copy { font-weight: 800; color: var(--primary); font-size: 1.1rem; font-family: 'Manjari', sans-serif; }
 
         @media (max-width: 600px) {
             h1 { font-size: 2.2rem; }
-            .card {
-                grid-template-columns: 1fr;
-                text-align: center;
-                padding: 1.25rem;
-                gap: 1rem;
-            }
-            .profile-img { width: 120px; height: 120px; margin: 0 auto; }
-            .details { text-align: center; }
-            .btn-vote { width: 100%; padding: 1rem; }
+            .card { grid-template-columns: 1fr; text-align: center; }
+            .profile-img { margin: 0 auto; }
+            .btn-vote { width: 100%; }
         }
     </style>
 </head>
@@ -316,11 +233,10 @@
             <p class="subtitle">നിങ്ങളുടെ വോട്ട് സുരക്ഷിതമാണ്. ഇത് ഔദ്യോഗിക തെരഞ്ഞെടുപ്പല്ല, മറിച്ച് പൊതുജനങ്ങളുടെ അഭിപ്രായമാണ്.</p>
         </section>
 
-        <div id="status-msg">പരിശോധിക്കുന്നു...</div>
+        <div id="status-msg" style="text-align:center; padding:5rem; font-family:'Manjari'; display:none;">പരിശോധിക്കുന്നു...</div>
 
         <div class="main-container">
             <div id="poll-list" class="poll-list"></div>
-
             <div id="results-box" class="results-box">
                 <h2 style="text-align: center; margin-bottom: 2.5rem; font-family: 'Manjari', sans-serif;">ഇതുവരെയുള്ള വോട്ട് നില</h2>
                 <div id="results-render"></div>
@@ -330,14 +246,13 @@
     </main>
 
     <footer>
-        <p style="color: var(--text-light); font-size: 0.9rem; max-width: 500px; margin: 0 auto 1.5rem; font-family: 'Manjari', sans-serif;">ഈ പ്ലാറ്റ്‌ഫോം പൊതുജനങ്ങളുടെ സ്വതന്ത്ര അഭിപ്രായത്തിന് വേണ്ടിയുള്ളതാണ്. വോട്ടുകൾ സുതാര്യമായി കണക്കാക്കുന്നു.</p>
         <div class="copy">യു.ഡി.എഫ് 2026 | കേരള പൾസ്</div>
     </footer>
 
     <script>
-        // Gun.js Global Real-time Sync
-        const gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
-        const globalVotesNode = gun.get('kerala_poll_official_launch_v1'); // FINAL RESET KEY
+        // OFFICIAL LIVE RESET
+        const gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://gun-amsterdam.herokuapp.com/gun']);
+        const liveVotes = gun.get('kerala_poll_LIVE_FINAL_OFFICIAL'); 
 
         const candidates = [
             { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'http://www.niyamasabha.org/pics/members%2015th%20kla/78%20VD%20Satheesan%20Paravur.jpg' },
@@ -351,22 +266,18 @@
         const statusMsg = document.getElementById('status-msg');
         const hero = document.getElementById('hero');
 
-        let currentGlobalVotes = {};
-        candidates.forEach(c => currentGlobalVotes[c.id] = 0);
+        let counts = {};
+        candidates.forEach(c => counts[c.id] = 0);
 
-        // Listen for Global Updates
-        globalVotesNode.on((data) => {
+        // SYNC
+        liveVotes.on((data) => {
             if (!data) return;
-            candidates.forEach(c => {
-                currentGlobalVotes[c.id] = data[c.id] || 0;
-            });
-            if (resultsBox.classList.contains('active') || localStorage.getItem('kp_user_voted_official')) {
-                renderResults();
-            }
+            candidates.forEach(c => counts[c.id] = data[c.id] || 0);
+            if (resultsBox.classList.contains('active') || localStorage.getItem('kp_voted_live')) renderResults();
         });
 
-        async function start() {
-            if (localStorage.getItem('kp_user_voted_official')) {
+        async function init() {
+            if (localStorage.getItem('kp_voted_live')) {
                 showResultsUI();
             } else {
                 statusMsg.style.display = 'block';
@@ -374,75 +285,58 @@
                     const res = await fetch('https://ipapi.co/json/');
                     const data = await res.json();
                     if (data.region !== 'Kerala' && data.region_code !== 'KL') {
-                        statusMsg.innerText = 'ക്ഷമിക്കണം, ഈ പോൾ കേരളത്തിലുള്ളവർക്ക് മാത്രമായി പരിമിതപ്പെടുത്തിയിരിക്കുന്നു.';
+                        statusMsg.innerText = 'കേരളത്തിലുള്ളവർക്ക് മാത്രമാണ് വോട്ട് ചെയ്യാൻ സാധിക്കുക.';
                         return;
                     }
                 } catch (e) {}
                 statusMsg.style.display = 'none';
-                renderPollUI();
+                renderPoll();
             }
         }
 
-        function renderPollUI() {
+        function renderPoll() {
             pollList.innerHTML = candidates.map(c => `
                 <div class="card">
                     <div class="profile-img"><img src="${c.img}" alt="${c.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=1e3a8a&color=fff'"></div>
-                    <div class="details">
-                        <h3>${c.name}</h3>
-                        <p>${c.desc}</p>
-                    </div>
-                    <button class="btn-vote" onclick="handleVote('${c.id}')">വോട്ട് ചെയ്യുക</button>
+                    <div class="details"><h3>${c.name}</h3><p>${c.desc}</p></div>
+                    <button class="btn-vote" onclick="cast('${c.id}')">വോട്ട് ചെയ്യുക</button>
                 </div>
             `).join('');
             setTimeout(() => pollList.classList.add('visible'), 50);
         }
 
-        function handleVote(id) {
-            localStorage.setItem('kp_user_voted_official', 'true');
-            
-            // Push to Global Gun.js
-            let newVal = (currentGlobalVotes[id] || 0) + 1;
-            globalVotesNode.get(id).put(newVal);
-
-            pollList.classList.remove('visible');
-            setTimeout(() => {
-                pollList.style.display = 'none';
-                showResultsUI(true);
-            }, 400);
+        function cast(id) {
+            localStorage.setItem('kp_voted_live', 'true');
+            liveVotes.get(id).put((counts[id] || 0) + 1);
+            showResultsUI(true);
         }
 
         function showResultsUI(fresh = false) {
             hero.style.display = 'none';
             pollList.style.display = 'none';
-            statusMsg.style.display = 'none';
             resultsBox.classList.add('active');
             document.getElementById('voted-note').innerText = fresh ? 'വോട്ട് ചെയ്തതിന് നന്ദി!' : 'നിങ്ങൾ നേരത്തെ വോട്ട് ചെയ്തിട്ടുണ്ട്.';
             renderResults();
         }
 
         function renderResults() {
-            const total = Object.values(currentGlobalVotes).reduce((a, b) => a + b, 0);
-            const sorted = [...candidates].sort((a, b) => currentGlobalVotes[b.id] - currentGlobalVotes[a.id]);
-
+            const total = Object.values(counts).reduce((a, b) => a + b, 0);
+            const sorted = [...candidates].sort((a, b) => counts[b.id] - counts[a.id]);
             resultsRender.innerHTML = sorted.map(c => {
-                const count = currentGlobalVotes[c.id];
-                const percent = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
+                const pct = total > 0 ? ((counts[c.id] / total) * 100).toFixed(1) : 0;
                 return `
                     <div class="result-row">
                         <div class="res-top">
                             <span class="res-name">${c.name}</span>
-                            <div style="text-align: right">
-                                <span class="res-percent">${percent}%</span>
-                                <div class="res-count">${count.toLocaleString()} വോട്ടുകൾ</div>
-                            </div>
+                            <div style="text-align:right"><span class="res-percent">${pct}%</span><div class="res-count">${counts[c.id].toLocaleString()} വോട്ടുകൾ</div></div>
                         </div>
-                        <div class="bar-container"><div class="bar-fill" style="width: ${percent}%"></div></div>
+                        <div class="bar-container"><div class="bar-fill" style="width:${pct}%"></div></div>
                     </div>
                 `;
             }).join('');
         }
 
-        window.addEventListener('DOMContentLoaded', start);
+        window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
