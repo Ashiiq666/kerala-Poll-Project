@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Manjari:wght@400;700&display=swap" rel="stylesheet">
 
+    <!-- Gun.js for Real-time Global Sync -->
+    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+
     <style>
         :root {
             --primary: #1e3a8a;
@@ -210,7 +213,7 @@
             background: #fff;
             border: 2px solid var(--primary);
             border-radius: 1.5rem;
-            padding: 2rem;
+            padding: 2.5rem;
             display: none;
             box-shadow: 0 15px 35px rgba(30, 58, 138, 0.1);
         }
@@ -220,24 +223,24 @@
         }
 
         .result-row {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .res-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.75rem;
         }
 
         .res-name {
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-family: 'Manjari', sans-serif;
         }
 
         .res-count {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-light);
             font-weight: 600;
             font-family: 'Manjari', sans-serif;
@@ -245,12 +248,12 @@
 
         .res-percent {
             font-weight: 800;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             color: var(--primary);
         }
 
         .bar-container {
-            height: 1rem;
+            height: 1.25rem;
             background: var(--accent);
             border-radius: 1rem;
             overflow: hidden;
@@ -294,22 +297,9 @@
                 padding: 1.25rem;
                 gap: 1rem;
             }
-            .profile-img {
-                width: 120px;
-                height: 120px;
-                margin: 0 auto;
-            }
-            .details {
-                text-align: center;
-            }
-            .btn-vote {
-                width: 100%;
-                padding: 1rem;
-            }
-            .results-box {
-                padding: 1.5rem;
-                border-radius: 1.25rem;
-            }
+            .profile-img { width: 120px; height: 120px; margin: 0 auto; }
+            .details { text-align: center; }
+            .btn-vote { width: 100%; padding: 1rem; }
         }
     </style>
 </head>
@@ -332,9 +322,9 @@
             <div id="poll-list" class="poll-list"></div>
 
             <div id="results-box" class="results-box">
-                <h2 style="text-align: center; margin-bottom: 2rem; font-family: 'Manjari', sans-serif;">ഇതുവരെയുള്ള വോട്ട് നില</h2>
+                <h2 style="text-align: center; margin-bottom: 2.5rem; font-family: 'Manjari', sans-serif;">ഇതുവരെയുള്ള വോട്ട് നില</h2>
                 <div id="results-render"></div>
-                <p id="voted-note" style="text-align: center; margin-top: 2rem; font-weight: 600; color: var(--text-light); font-family: 'Manjari', sans-serif;"></p>
+                <p id="voted-note" style="text-align: center; margin-top: 2.5rem; font-weight: 600; color: var(--text-light); font-family: 'Manjari', sans-serif;"></p>
             </div>
         </div>
     </main>
@@ -345,7 +335,9 @@
     </footer>
 
     <script>
-        const syncChannel = new BroadcastChannel('kp_vote_sync');
+        // Gun.js Global Real-time Sync
+        const gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
+        const globalVotesNode = gun.get('kerala_poll_final_v10'); // FRESH START KEY
 
         const candidates = [
             { id: 'vds', name: 'വി.ഡി. സതീശൻ', desc: 'പ്രതിപക്ഷ നേതാവ്, കേരള നിയമസഭ.', img: 'http://www.niyamasabha.org/pics/members%2015th%20kla/78%20VD%20Satheesan%20Paravur.jpg' },
@@ -353,31 +345,28 @@
             { id: 'rc', name: 'രമേശ് ചെന്നിത്തല', desc: 'മുൻ ആഭ്യന്തര മന്ത്രി.', img: 'http://www.niyamasabha.org/pics/members%2015th%20kla/107%20Ramesh%20Chennithala%20Harippad.jpg' }
         ];
 
-        function fetchRealVotes() {
-            let stored = localStorage.getItem('kp_genuine_votes');
-            if (stored) return JSON.parse(stored);
-            let resetState = {};
-            candidates.forEach(c => resetState[c.id] = 0);
-            localStorage.setItem('kp_genuine_votes', JSON.stringify(resetState));
-            return resetState;
-        }
-
-        function pushVote(id) {
-            let votes = fetchRealVotes();
-            votes[id]++;
-            localStorage.setItem('kp_genuine_votes', JSON.stringify(votes));
-            syncChannel.postMessage({ votes });
-            return votes;
-        }
-
         const pollList = document.getElementById('poll-list');
         const resultsBox = document.getElementById('results-box');
         const resultsRender = document.getElementById('results-render');
         const statusMsg = document.getElementById('status-msg');
         const hero = document.getElementById('hero');
 
+        let currentGlobalVotes = {};
+        candidates.forEach(c => currentGlobalVotes[c.id] = 0);
+
+        // Listen for Global Updates
+        globalVotesNode.on((data) => {
+            if (!data) return;
+            candidates.forEach(c => {
+                currentGlobalVotes[c.id] = data[c.id] || 0;
+            });
+            if (resultsBox.classList.contains('active') || localStorage.getItem('kp_user_voted_final')) {
+                renderResults();
+            }
+        });
+
         async function start() {
-            if (localStorage.getItem('user_voted')) {
+            if (localStorage.getItem('kp_user_voted_final')) {
                 showResultsUI();
             } else {
                 statusMsg.style.display = 'block';
@@ -409,8 +398,12 @@
         }
 
         function handleVote(id) {
-            localStorage.setItem('user_voted', 'true');
-            pushVote(id);
+            localStorage.setItem('kp_user_voted_final', 'true');
+            
+            // Push to Global Gun.js
+            let newVal = (currentGlobalVotes[id] || 0) + 1;
+            globalVotesNode.get(id).put(newVal);
+
             pollList.classList.remove('visible');
             setTimeout(() => {
                 pollList.style.display = 'none';
@@ -424,16 +417,15 @@
             statusMsg.style.display = 'none';
             resultsBox.classList.add('active');
             document.getElementById('voted-note').innerText = fresh ? 'വോട്ട് ചെയ്തതിന് നന്ദി!' : 'നിങ്ങൾ നേരത്തെ വോട്ട് ചെയ്തിട്ടുണ്ട്.';
-            updateResultsDisplay();
+            renderResults();
         }
 
-        function updateResultsDisplay() {
-            const votes = fetchRealVotes();
-            const total = Object.values(votes).reduce((a, b) => a + b, 0);
-            const sorted = [...candidates].sort((a, b) => votes[b.id] - votes[a.id]);
+        function renderResults() {
+            const total = Object.values(currentGlobalVotes).reduce((a, b) => a + b, 0);
+            const sorted = [...candidates].sort((a, b) => currentGlobalVotes[b.id] - currentGlobalVotes[a.id]);
 
             resultsRender.innerHTML = sorted.map(c => {
-                const count = votes[c.id];
+                const count = currentGlobalVotes[c.id];
                 const percent = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
                 return `
                     <div class="result-row">
@@ -449,10 +441,6 @@
                 `;
             }).join('');
         }
-
-        syncChannel.onmessage = () => {
-            if (resultsBox.classList.contains('active')) updateResultsDisplay();
-        };
 
         window.addEventListener('DOMContentLoaded', start);
     </script>
